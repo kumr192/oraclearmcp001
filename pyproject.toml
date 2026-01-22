@@ -2,7 +2,7 @@
 name = "oracle-ar-mcp"
 version = "1.0.0"
 description = "Oracle Fusion AR MCP Server - Streamable HTTP for Railway"
-readme = "README.md"
+#readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "mcp>=1.8.0",
