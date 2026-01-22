@@ -12,13 +12,11 @@ import base64
 import os
 from datetime import datetime, date
 
-# Initialize MCP server with stateless HTTP mode for Railway
+# Initialize MCP server
 mcp = FastMCP(
     "oracle_ar_mcp",
     stateless_http=True,
-    json_response=True,
-    host="0.0.0.0",
-    allowed_hosts=["*"]
+    json_response=True
 )
 
 
@@ -215,8 +213,24 @@ async def get_aging_summary(params: AgingInput) -> str:
         return _handle_error(e)
 
 
+# ============================================================================
+# Main - Run with uvicorn, disable host checking
+# ============================================================================
+
 if __name__ == "__main__":
     import uvicorn
+    from starlette.applications import Starlette
+    from starlette.routing import Mount
+    
     port = int(os.environ.get("PORT", 8000))
-    app = mcp.streamable_http_app()
+    
+    # Get the MCP app
+    mcp_app = mcp.streamable_http_app()
+    
+    # Wrap in a new Starlette app without host checking
+    app = Starlette(
+        routes=[Mount("/mcp", app=mcp_app)],
+        debug=False
+    )
+    
     uvicorn.run(app, host="0.0.0.0", port=port)

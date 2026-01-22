@@ -1,12 +1,10 @@
 FROM python:3.12-slim
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
-
 WORKDIR /app
 
-COPY pyproject.toml server.py ./
+COPY server.py ./
 
-RUN uv pip install --system -r pyproject.toml
+RUN pip install "mcp[cli]>=1.8.0" httpx pydantic uvicorn starlette
 
 ENV PORT=8000
 
