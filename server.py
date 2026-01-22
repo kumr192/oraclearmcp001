@@ -16,7 +16,9 @@ from datetime import datetime, date
 mcp = FastMCP(
     "oracle_ar_mcp",
     stateless_http=True,
-    json_response=True
+    json_response=True,
+    host="0.0.0.0",
+    allowed_hosts=["*"]
 )
 
 
