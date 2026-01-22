@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY server.py ./
 
-RUN pip install "mcp[cli]>=1.8.0" httpx pydantic uvicorn starlette
+RUN pip install "mcp[cli]>=1.8.0" httpx pydantic uvicorn starlette sse-starlette
 
 CMD ["python", "server.py"]
