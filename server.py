@@ -222,7 +222,9 @@ if __name__ == "__main__":
     
     port = int(os.environ.get("PORT", 8000))
     
-    # Set the path to root so endpoint is just /mcp
+    # Disable host validation for remote access
+    os.environ["FASTMCP_ALLOWED_HOSTS"] = "*"
+    
     mcp.settings.streamable_http_path = "/"
     
     app = mcp.streamable_http_app()
