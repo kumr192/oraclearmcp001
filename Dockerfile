@@ -1,19 +1,13 @@
 FROM python:3.12-slim
 
-# Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
 
 WORKDIR /app
 
-# Copy project files
-COPY pyproject.toml .
-COPY server.py .
+COPY pyproject.toml server.py ./
 
-# Install dependencies with uv
-RUN uv sync --no-dev
+RUN uv pip install --system -r pyproject.toml
 
-# Railway sets PORT env var
 ENV PORT=8000
 
-# Run the server
-CMD ["uv", "run", "python", "server.py"]
+CMD ["python", "server.py"]
