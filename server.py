@@ -214,23 +214,17 @@ async def get_aging_summary(params: AgingInput) -> str:
 
 
 # ============================================================================
-# Main - Run with uvicorn, disable host checking
+# Main
 # ============================================================================
 
 if __name__ == "__main__":
     import uvicorn
-    from starlette.applications import Starlette
-    from starlette.routing import Mount
     
     port = int(os.environ.get("PORT", 8000))
     
-    # Get the MCP app
-    mcp_app = mcp.streamable_http_app()
+    # Set the path to root so endpoint is just /mcp
+    mcp.settings.streamable_http_path = "/"
     
-    # Wrap in a new Starlette app without host checking
-    app = Starlette(
-        routes=[Mount("/mcp", app=mcp_app)],
-        debug=False
-    )
+    app = mcp.streamable_http_app()
     
     uvicorn.run(app, host="0.0.0.0", port=port)
